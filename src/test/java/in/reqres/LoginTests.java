@@ -6,7 +6,7 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.is;
 
-public class LoginTests {
+public class LoginTests extends TestBase {
 
     @Test
     void successfulLoginTest() {
@@ -19,7 +19,7 @@ public class LoginTests {
                 .contentType(JSON)
                 .body(authData)
                 .when()
-                .post("https://reqres.in/api/login")
+                .post("/login")
                 .then()
                 .log().status()
                 .log().body()
@@ -37,7 +37,7 @@ public class LoginTests {
                 .log().body()
                 .body(authData)
                 .when()
-                .post("https://reqres.in/api/login")
+                .post("/login")
                 .then()
                 .log().status()
                 .log().body()
@@ -53,7 +53,7 @@ public class LoginTests {
                 .log().method()
                 .log().body()
                 .when()
-                .post("https://reqres.in/api/login")
+                .post("/login")
                 .then()
                 .log().status()
                 .log().body()
@@ -71,7 +71,7 @@ public class LoginTests {
                 .contentType(JSON)
                 .body(authData)
                 .when()
-                .post("https://reqres.in/api/login")
+                .post("/login")
                 .then()
                 .log().status()
                 .log().body()
@@ -90,7 +90,7 @@ public class LoginTests {
                 .contentType(JSON)
                 .body(authData)
                 .when()
-                .post("https://reqres.in/api/login")
+                .post("/login")
                 .then()
                 .log().status()
                 .log().body()

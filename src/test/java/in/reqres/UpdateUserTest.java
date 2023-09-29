@@ -7,7 +7,7 @@ import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.empty;
 
-public class UpdateUserTest {
+public class UpdateUserTest extends TestBase {
     @Test
     void successUpdateUserTest() {
         String createData = "{\"name\": \"morpheus\",\"job\": \"zion resident\"}";
@@ -19,7 +19,7 @@ public class UpdateUserTest {
                 .contentType(JSON)
                 .body(createData)
                 .when()
-                .post("https://reqres.in/api/users/2")
+                .post("/users/2")
                 .then()
                 .log().status()
                 .log().body()
@@ -40,7 +40,7 @@ public class UpdateUserTest {
                 .contentType(JSON)
                 .body(createData)
                 .when()
-                .patch("https://reqres.in/api/users/2")
+                .patch("/users/2")
                 .then()
                 .log().status()
                 .log().body()
