@@ -1,77 +1,84 @@
 package in.reqres.tests;
 
+import in.reqres.models.CreateUserBodyModel;
+import in.reqres.models.CreateUserResponseModel;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static in.reqres.specs.CreateUserSpec.createUserRequestSpec;
+import static in.reqres.specs.CreateUserSpec.createUserResponseSpec;
+import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
-import static io.restassured.http.ContentType.JSON;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class CreateUserTest extends TestBase {
+public class CreateUserTest {
     @Test
+    @DisplayName("Проверка создания Юзера")
     void successCreateUserTest() {
-        String createData = "{\"name\": \"morpheus\",\"job\": \"leader\"}";
+        CreateUserBodyModel createUserData = new CreateUserBodyModel();
+        createUserData.setName("morpheus");
+        createUserData.setJob("leader");
 
-        given()
-                .log().uri()
-                .log().method()
-                .log().body()
-                .contentType(JSON)
-                .body(createData)
+        CreateUserBodyModel response = step ("Cоздание Юзера с именем и должностью", () ->
+                given(createUserRequestSpec)
+                .body(createUserData)
                 .when()
                 .post("/users")
                 .then()
-                .log().status()
-                .log().body()
-                .statusCode(201)
-                .body("name", is("morpheus"))
-                .body("job", is("leader"))
-                .body("id", is(not(empty())))
-                .body("createdAt", is(not(empty())));
+                .spec(createUserResponseSpec)
+                .extract().as(CreateUserBodyModel.class));
 
+        step("Проверка создания Юзера", () -> {
+            assertEquals("morpheus", response.getName());
+            assertEquals("leader", response.getJob());
+            assertNotNull(response.getId());
+            assertNotNull(response.getCreatedAt());
+        });
     }
 
     @Test
+    @DisplayName("Проверка создания Юзера без имени")
     void createUserWithoutNameTest() {
-        String createData = "{\"name\": \"\",\"job\": \"leader\"}";
+        CreateUserBodyModel withoutNameData = new CreateUserBodyModel();
+        withoutNameData.setJob("leader");
 
-        given()
-                .log().uri()
-                .log().method()
-                .log().body()
-                .contentType(JSON)
-                .body(createData)
-                .when()
-                .post("/users")
-                .then()
-                .log().status()
-                .log().body()
-                .statusCode(201)
-                .body("job", is("leader"))
-                .body("id", is(not(empty())))
-                .body("createdAt", is(not(empty())));
 
+        CreateUserBodyModel response = step("Cоздание Юзера без имени", () ->
+                given(createUserRequestSpec)
+                        .body(withoutNameData)
+                        .when()
+                        .post("/users")
+                        .then()
+                        .spec(createUserResponseSpec)
+                        .extract().as(CreateUserBodyModel.class));
+
+        step("Проверка создания Юзера без имени", () -> {
+            assertEquals("leader", response.getJob());
+            assertNotNull(response.getId());
+            assertNotNull(response.getCreatedAt());
+        });
     }
 
     @Test
+    @DisplayName("Проверка создания Юзера без должности")
     void createUserWithoutJobTest() {
-        String noneJobData = "{ \"name\": \"morpheus\" }";
+        CreateUserBodyModel withoutJobData = new CreateUserBodyModel();
+        withoutJobData.setName("morpheus");
 
-        given()
-                .log().uri()
-                .log().method()
-                .log().body()
-                .contentType(JSON)
-                .body(noneJobData)
-                .when()
-                .post("/users")
-                .then()
-                .log().status()
-                .log().body()
-                .statusCode(201)
-                .body("name", is("morpheus"),
-                        "id", is(not(empty())),
-                        "createdAt", is(not(empty())));
+
+        CreateUserBodyModel response = step("создание Юзера без имени", () ->
+                given(createUserRequestSpec)
+                        .body(withoutJobData)
+                        .when()
+                        .post("/users")
+                        .then()
+                        .spec(createUserResponseSpec)
+                        .extract().as(CreateUserBodyModel.class));
+
+        step("Проверка создания Юзера без имени", () -> {
+            assertEquals("leader", response.getJob());
+            assertNotNull(response.getId());
+            assertNotNull(response.getCreatedAt());
+        });
     }
 }
