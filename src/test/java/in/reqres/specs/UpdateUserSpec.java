@@ -17,7 +17,6 @@ public class UpdateUserSpec {
     private static final ApiConfig CONFIG = ConfigFactory.create(ApiConfig.class);
 
     public static RequestSpecification updateUserRequestSpec = with()
-            .filter(withCustomTemplates())
             .log().uri()
             .log().method()
             .log().body()

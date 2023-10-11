@@ -11,7 +11,7 @@ import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CreateUserTest {
+public class CreateUserTest extends TestBase {
     @Test
     @DisplayName("Проверка создания Юзера")
     void successCreateUserTest() {

@@ -17,7 +17,6 @@ public class CreateUserSpec {
     private static final ApiConfig CONFIG = ConfigFactory.create(ApiConfig.class);
 
     public static RequestSpecification createUserRequestSpec = with()
-            .filter(withCustomTemplates())
             .log().uri()
             .log().method()
             .log().body()
