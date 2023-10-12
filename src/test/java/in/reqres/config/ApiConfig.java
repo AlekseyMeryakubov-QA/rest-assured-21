@@ -7,4 +7,6 @@ public interface ApiConfig extends Config {
 
     @Key("baseUrl")
     String baseApiUrl();
+    @Key("basePath")
+    String baseApiPath();
 }
