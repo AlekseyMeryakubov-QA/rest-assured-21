@@ -76,7 +76,7 @@ public class CreateUserTest extends TestBase {
                         .extract().as(CreateUserBodyModel.class));
 
         step("Проверка создания Юзера без имени", () -> {
-            assertEquals("leader", response.getJob());
+            assertEquals("morpheus", response.getName());
             assertNotNull(response.getId());
             assertNotNull(response.getCreatedAt());
         });
