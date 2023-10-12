@@ -12,7 +12,7 @@ import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class UpdateUserTest {
+public class UpdateUserTest extends TestBase {
     @Test
     @DisplayName("Проверка обновления пользователя")
     void successUpdateUserTest() {

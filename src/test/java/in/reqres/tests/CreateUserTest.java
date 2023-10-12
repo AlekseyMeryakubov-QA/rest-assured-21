@@ -1,7 +1,6 @@
 package in.reqres.tests;
 
 import in.reqres.models.CreateUserBodyModel;
-import in.reqres.models.CreateUserResponseModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +8,8 @@ import static in.reqres.specs.CreateUserSpec.createUserRequestSpec;
 import static in.reqres.specs.CreateUserSpec.createUserResponseSpec;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CreateUserTest extends TestBase {
     @Test
@@ -19,14 +19,14 @@ public class CreateUserTest extends TestBase {
         createUserData.setName("morpheus");
         createUserData.setJob("leader");
 
-        CreateUserBodyModel response = step ("Cоздание Юзера с именем и должностью", () ->
+        CreateUserBodyModel response = step("Cоздание Юзера с именем и должностью", () ->
                 given(createUserRequestSpec)
-                .body(createUserData)
-                .when()
-                .post("/users")
-                .then()
-                .spec(createUserResponseSpec)
-                .extract().as(CreateUserBodyModel.class));
+                        .body(createUserData)
+                        .when()
+                        .post("/users")
+                        .then()
+                        .spec(createUserResponseSpec)
+                        .extract().as(CreateUserBodyModel.class));
 
         step("Проверка создания Юзера", () -> {
             assertEquals("morpheus", response.getName());
